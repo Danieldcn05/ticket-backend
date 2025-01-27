@@ -7,5 +7,6 @@ import com.danieldcn05.ticket_backend.ticket_backend.models.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+    boolean existsByEmail(String email);
 
 }

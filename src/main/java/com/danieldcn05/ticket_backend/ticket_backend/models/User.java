@@ -11,17 +11,19 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity // Esta anotación indica que la clase User es una entidad de la base de datos
 @Table(name = "users") // Nombre de la tabla en la base de datos
 @Data // Anotación de Lombok para generar automáticamente los getters y setters
+@SequenceGenerator(name = "user_seq", sequenceName = "users_seq", initialValue = 1, allocationSize = 1) // Genera automáticamente el valor del campo id
 public class User {
 
 
     @Id // Indica que el campo id es la clave primaria
-    @GeneratedValue(strategy = GenerationType.AUTO) // Genera automáticamente el valor del campo id 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private int id;
 
     @Column(name = "name", length = 50) // Nombre de la columna en la base de datos y longitud máxima
@@ -36,7 +38,7 @@ public class User {
     @Column(name = "password", length = 255)
     private String password; 
 
-    @Column(name = "email", length = 254)
+    @Column(name = "email", length = 254, unique = true) // Indica que el campo email es único
     private String email;
 
     @Column(name = "tlf", length = 10)
