@@ -47,4 +47,7 @@ public class User {
     @Enumerated(EnumType.STRING) // Indica que el campo role es de tipo Enum
     @Column(name = "role")
     private Role role;
+
+    @Column(name = "active")
+    private boolean active = true;
 }
