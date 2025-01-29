@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.danieldcn05.ticket_backend.ticket_backend.dtos.UserDTO;
 import com.danieldcn05.ticket_backend.ticket_backend.exceptions.EmailAlreadyExistsException;
+import com.danieldcn05.ticket_backend.ticket_backend.exceptions.UserNotFoundException;
 import com.danieldcn05.ticket_backend.ticket_backend.models.User;
 import com.danieldcn05.ticket_backend.ticket_backend.repositories.UserRepository;
 import com.danieldcn05.ticket_backend.ticket_backend.services.UserService;
@@ -35,5 +36,33 @@ public class UserServiceImpl implements UserService {
 
         // Guardar el nuevo usuario en la base de datos
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getUserById(Long id) {
+
+        if(userRepository.existsById(id)){
+            if(userRepository.findById(id).get().isActive()){
+                return userRepository.findById(id).get();
+            }else{
+                throw new UserNotFoundException("El usuario no existe.");
+            }
+        }else{
+         throw new UserNotFoundException("El usuario no existe.");
+        }
+      
+        
+    }
+
+    @Override
+    public User deleteUserById(Long id) {
+        if (userRepository.existsById(id)) {
+            User user = userRepository.findById(id).get();
+            user.setActive(false);
+            userRepository.save(user); // Guardar el usuario después de modificar su estado
+            return user;
+        } else {
+            throw new UserNotFoundException("El usuario no existe.");
+        }
     }
 }
