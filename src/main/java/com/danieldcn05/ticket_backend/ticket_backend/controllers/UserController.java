@@ -46,4 +46,13 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody UserDTO userDTO) {
+        boolean isAuthenticated = userService.authenticateUser(userDTO);
+        if (isAuthenticated) {
+            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+        }
+    }
 }

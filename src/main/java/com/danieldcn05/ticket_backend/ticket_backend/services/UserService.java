@@ -8,4 +8,5 @@ public interface UserService {
     User createUser(UserDTO userDTO);
     User getUserById(Long id);
     User deleteUserById(Long id);
+    boolean authenticateUser(UserDTO userDTO);
 }

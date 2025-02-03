@@ -65,4 +65,14 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("El usuario no existe.");
         }
     }
+
+    @Override
+    public boolean authenticateUser(UserDTO userDTO) {
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
+            User user = userRepository.findByEmail(userDTO.getEmail());
+            return user.getPassword().equals(userDTO.getPassword());
+        } else {
+            return false;
+        }
+    }
 }
